@@ -1,0 +1,225 @@
+:root {
+  --bg: #e9eef7;
+  --panel: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --border: #8ca8d3;
+  --danger: #dc2626;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  position: relative;
+  background:
+    url("file:///C:/Users/MATHAN/.cursor/projects/c-Users-MATHAN-Pictures/assets/c__Users_MATHAN_AppData_Roaming_Cursor_User_workspaceStorage_dac4ab4c9cbccf56745c7fbbaa9d9405_images_employee-management-system-c4eab924-731f-43d9-a6eb-13959d0c5b9b.png")
+    center / cover no-repeat fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 45, 0.5);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-header,
+.tab-nav,
+.container,
+.toast {
+  position: relative;
+  z-index: 1;
+}
+
+.app-header {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(1.5px);
+}
+
+.app-header h1,
+.app-header p {
+  margin: 0.25rem 0;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-btn {
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.container {
+  padding: 1rem;
+}
+
+.tab-panel {
+  display: none;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cards {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+}
+
+.form-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 1rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+input,
+select,
+button {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+button {
+  background: white;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.full-row {
+  grid-column: 1 / -1;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.55rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+th {
+  background: #eef2ff;
+}
+
+.payslip {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.97);
+  min-height: 120px;
+}
+
+.payslip-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #111827;
+  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.2s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 0.6rem;
+  }
+  .tab-panel {
+    padding: 0.75rem;
+  }
+}
+
+@media print {
+  .app-header,
+  .tab-nav,
+  .actions,
+  #reports,
+  #employees,
+  #attendance,
+  #leave,
+  #salary,
+  #settings,
+  #dashboard {
+    display: none !important;
+  }
+
+  #payslip {
+    display: block !important;
+    border: none;
+    padding: 0;
+  }
+}

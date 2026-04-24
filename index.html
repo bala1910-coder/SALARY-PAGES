@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BROTHERS Attendance Employee Payroll Web App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>BROTHERS MAN POWER SUPPLY</h1>
+    <p>BUILDING NO 2, M.SAVERIYARPURAM, MUTHIAHPURAM, TUTICORIN-628005.</p>
+  </header>
+
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+    <button class="tab-btn" data-tab="employees">Employees</button>
+    <button class="tab-btn" data-tab="attendance">Attendance</button>
+    <button class="tab-btn" data-tab="leave">Leave</button>
+    <button class="tab-btn" data-tab="salary">Salary</button>
+    <button class="tab-btn" data-tab="payslip">Payslip</button>
+    <button class="tab-btn" data-tab="reports">Reports</button>
+    <button class="tab-btn" data-tab="settings">Settings</button>
+  </nav>
+
+  <main class="container">
+    <section class="tab-panel active" id="dashboard">
+      <h2>Admin Dashboard</h2>
+      <div class="grid cards">
+        <article class="card"><h3>Total Employees</h3><p id="metricEmployees">0</p></article>
+        <article class="card"><h3>Today Attendance</h3><p id="metricAttendanceToday">0</p></article>
+        <article class="card"><h3>Pending Leaves</h3><p id="metricPendingLeaves">0</p></article>
+        <article class="card"><h3>Salary Runs</h3><p id="metricSalaryRuns">0</p></article>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="employees">
+      <h2>Employee Management</h2>
+      <form id="employeeForm" class="grid form-grid">
+        <input type="hidden" id="employeeInternalId">
+        <label>Employee ID<input required id="employeeId" type="text" placeholder="EMP001"></label>
+        <label>Name<input required id="employeeName" type="text"></label>
+        <label>Phone<input id="employeePhone" type="tel"></label>
+        <label>Email<input id="employeeEmail" type="email"></label>
+        <label>Department<input id="employeeDepartment" type="text"></label>
+        <label>Designation<input id="employeeDesignation" type="text"></label>
+        <label>Joining Date<input required id="employeeJoinDate" type="date"></label>
+        <label>Salary Type
+          <select id="salaryType">
+            <option value="monthly">Monthly</option>
+            <option value="daily">Daily</option>
+            <option value="hourly">Hourly</option>
+          </select>
+        </label>
+        <label>Base Salary / Rate<input required id="baseSalary" type="number" min="0" step="0.01"></label>
+        <label>Sick Leave Balance<input id="leaveSick" type="number" min="0" step="0.5" value="6"></label>
+        <label>Casual Leave Balance<input id="leaveCasual" type="number" min="0" step="0.5" value="6"></label>
+        <label>Paid Leave Balance<input id="leavePaid" type="number" min="0" step="0.5" value="12"></label>
+        <div class="full-row actions">
+          <button type="submit">Save Employee</button>
+          <button type="button" id="resetEmployeeForm">Reset</button>
+        </div>
+      </form>
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Salary Type</th><th>Base</th><th>Actions</th></tr></thead>
+        <tbody id="employeeTableBody"></tbody>
+      </table>
+    </section>
+
+    <section class="tab-panel" id="attendance">
+      <h2>Attendance Entry</h2>
+      <form id="attendanceForm" class="grid form-grid">
+        <label>Employee<select required id="attendanceEmployee"></select></label>
+        <label>Date<input required id="attendanceDate" type="date"></label>
+        <label>Check-in<input required id="checkIn" type="time"></label>
+        <label>Check-out<input required id="checkOut" type="time"></label>
+        <label>Total Hours<input id="totalHours" type="number" min="0" step="0.25"></label>
+        <label>Overtime Hours<input id="overtimeHours" type="number" min="0" step="0.25" value="0"></label>
+        <label>Late Minutes<input id="lateMinutes" type="number" min="0" step="1" value="0"></label>
+        <label>Early Leave Minutes<input id="earlyLeaveMinutes" type="number" min="0" step="1" value="0"></label>
+        <div class="full-row actions">
+          <button type="submit">Mark Attendance</button>
+        </div>
+      </form>
+      <table>
+        <thead><tr><th>Date</th><th>Employee</th><th>In</th><th>Out</th><th>Total Hrs</th><th>OT</th><th>Late/Early</th><th>Actions</th></tr></thead>
+        <tbody id="attendanceTableBody"></tbody>
+      </table>
+    </section>
+
+    <section class="tab-panel" id="leave">
+      <h2>Leave Management</h2>
+      <form id="leaveForm" class="grid form-grid">
+        <label>Employee<select required id="leaveEmployee"></select></label>
+        <label>Leave Type
+          <select id="leaveType">
+            <option value="sick">Sick Leave</option>
+            <option value="casual">Casual Leave</option>
+            <option value="paid">Paid Leave</option>
+          </select>
+        </label>
+        <label>Date<input required id="leaveDate" type="date"></label>
+        <label>Duration
+          <select id="leaveDuration">
+            <option value="full">Full Day</option>
+            <option value="half">Half Day</option>
+          </select>
+        </label>
+        <label>Reason<input id="leaveReason" type="text"></label>
+        <div class="full-row actions"><button type="submit">Submit Leave Request</button></div>
+      </form>
+      <table>
+        <thead><tr><th>Date</th><th>Employee</th><th>Type</th><th>Duration</th><th>Status</th><th>Reason</th><th>Actions</th></tr></thead>
+        <tbody id="leaveTableBody"></tbody>
+      </table>
+    </section>
+
+    <section class="tab-panel" id="salary">
+      <h2>Salary Calculation</h2>
+      <form id="salaryRunForm" class="grid form-grid">
+        <label>Month<input id="salaryMonth" required type="month"></label>
+        <label>Employee
+          <select id="salaryEmployeeFilter">
+            <option value="all">All Employees</option>
+          </select>
+        </label>
+        <label>Manual Bonus<input id="manualBonus" type="number" min="0" step="0.01" value="0"></label>
+        <label>Manual Deduction<input id="manualDeduction" type="number" min="0" step="0.01" value="0"></label>
+        <div class="full-row actions"><button type="submit">Generate Salary</button></div>
+      </form>
+      <table>
+        <thead><tr><th>Month</th><th>Employee</th><th>Earnings</th><th>Deductions</th><th>Net Salary</th><th>Actions</th></tr></thead>
+        <tbody id="salaryTableBody"></tbody>
+      </table>
+    </section>
+
+    <section class="tab-panel" id="payslip">
+      <h2>Payslip</h2>
+      <div class="grid form-grid">
+        <label>Month<select id="payslipMonth"></select></label>
+        <label>Employee<select id="payslipEmployee"></select></label>
+        <div class="full-row actions">
+          <button id="viewPayslipBtn" type="button">View Payslip</button>
+          <button id="printPayslipBtn" type="button">Print / Save PDF</button>
+        </div>
+      </div>
+      <article id="payslipView" class="payslip"></article>
+    </section>
+
+    <section class="tab-panel" id="reports">
+      <h2>Reports & Analytics</h2>
+      <div class="grid form-grid">
+        <label>Report Month<input id="reportMonth" type="month"></label>
+        <div class="full-row actions">
+          <button type="button" data-report="attendance">Attendance Report</button>
+          <button type="button" data-report="salary">Salary Report</button>
+          <button type="button" data-report="overtime">Overtime Report</button>
+          <button type="button" data-report="late">Absent/Late Report</button>
+          <button type="button" id="exportReportCsv">Export CSV</button>
+        </div>
+      </div>
+      <table>
+        <thead id="reportHead"></thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </section>
+
+    <section class="tab-panel" id="settings">
+      <h2>Payroll Settings</h2>
+      <form id="settingsForm" class="grid form-grid">
+        <label>Standard Daily Hours<input id="stdDailyHours" type="number" min="1" step="0.5"></label>
+        <label>Overtime Multiplier<input id="overtimeMultiplier" type="number" min="1" step="0.1"></label>
+        <label>Late Penalty / Minute<input id="latePenaltyPerMinute" type="number" min="0" step="0.01"></label>
+        <label>PF Deduction %<input id="pfPercent" type="number" min="0" step="0.01"></label>
+        <label>Working Days / Month<input id="workingDaysPerMonth" type="number" min="1" step="1"></label>
+        <div class="full-row actions"><button type="submit">Save Settings</button></div>
+      </form>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
